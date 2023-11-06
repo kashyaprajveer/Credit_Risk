@@ -1,2 +1,3 @@
 conda remove --name ENV_NAME --all
 python -m venv D:\AI_ML\venv 
+hello
