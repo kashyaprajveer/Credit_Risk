@@ -1,3 +1,11 @@
 conda remove --name ENV_NAME --all
+confa info --envs
+create repository first credit_risk
+clone repository via VS Code
+create environment
+git init
+git commit -m "test"
+git branch -M main
+git remote add origin https://github.com/kashyaprajveer/Credit_Risk.git
 python -m venv D:\AI_ML\venv 
 hello
