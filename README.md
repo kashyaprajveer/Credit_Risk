@@ -10,3 +10,5 @@ Model currently compared:
 4) SVM
 5) Neural Network
 6) Catboost
+
+The reason for maintaining seperate file is to work on specific problems and focus one individual preiorities at a time later will combine this into a modular code which is more sophesticated representation. 
