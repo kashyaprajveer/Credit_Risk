@@ -123,6 +123,8 @@ celerybeat.pid
 .env
 .venv
 .vnev/
+.credit_env
+credit_env/
 env/
 venv/
 vnev/
