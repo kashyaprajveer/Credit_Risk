@@ -23,62 +23,6 @@ def generate_user(df_data):
     context = user.iloc[:, :-1].values.tolist()[0]
     return user.to_dict(orient='records')[0], context
 
-def get_ad_inventory():
-    ad_inv_prob = {'Elementary': 0.9, 
-                   'Middle':  0.7, 
-                   'HS-grad':  0.7, 
-                   'Undergraduate':  0.7, 
-                   'Graduate':  0.8}
-    ad_inventory = []
-    for level, prob in ad_inv_prob.items():
-        if U() < prob:
-            ad_inventory.append(level)
-    # Make sure there are at least one ad among all 
-    if not ad_inventory:
-        ad_inventory = get_ad_inventory()
-    return ad_inventory
-
-def ad_to_one_hot(ad):
-    ed_levels = ['Elementary', 
-                 'Middle', 
-                 'HS-grad', 
-                 'Undergraduate', 
-                 'Graduate']
-    ad_input = [0] * len(ed_levels)
-    if ad in ed_levels:
-        ad_input[ed_levels.index(ad)] = 1
-    return ad_input
-
-def get_ad_click_probs():
-    base_prob = 0.8 # When an ad is shown to the user and if ad's target matches then probability of clicking on an ad
-    delta = 0.4     # Probability decrease by 0.3 for each level of mismatch
-    ed_levels = {'Elementary': 1, 
-                 'Middle':  2, 
-                 'HS-grad':  3, 
-                 'Undergraduate':  4, 
-                 'Graduate':  5}
-    ad_click_probs = {l1: {l2: max(0, base_prob - delta * abs(ed_levels[l1]- ed_levels[l2])) for l2 in ed_levels}
-                           for l1 in ed_levels}
-    return ad_click_probs
-
-def select_ad(model, context, ad_inventory):
-    selected_ad = None
-    selected_x = None
-    max_action_val = 0
-    for ad in ad_inventory:
-        ad_x = ad_to_one_hot(ad)
-        x = np.array(context + ad_x).reshape((1, -1))
-        action_val_pred = model.predict(x)[0][0]
-        if action_val_pred >= max_action_val:
-            selected_ad = ad
-            selected_x = x
-            max_action_val = action_val_pred
-    return selected_ad, selected_x
-
-def display_ad(ad_click_probs, user, ad):
-    prob = ad_click_probs[ad][user['education']]
-    click = 1 if U() < prob else 0 #U() Generate a random float number between 0 to 1
-    return click
 
 standard_to = StandardScaler()
 @app.route("/predict", methods=['POST'])
